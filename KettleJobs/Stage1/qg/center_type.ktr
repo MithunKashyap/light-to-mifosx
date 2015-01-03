@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>saving_acc_charges</name>
+    <name>center_type</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -66,9 +66,9 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2014&#x2f;06&#x2f;07 11&#x3a;26&#x3a;50.268</created_date>
+  <created_date>2014&#x2f;12&#x2f;23 11&#x3a;00&#x3a;14.931</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2014&#x2f;06&#x2f;07 11&#x3a;26&#x3a;50.268</modified_date>
+  <modified_date>2014&#x2f;12&#x2f;23 11&#x3a;00&#x3a;14.931</modified_date>
   </info>
   <notepads>
   </notepads>
@@ -118,22 +118,21 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
       <attribute><code>PORT_NUMBER</code><attribute>3306</attribute></attribute>
-      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
-      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>N</attribute></attribute>
       <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
     </attributes>
   </connection>
   <order>
-  <hop> <from>Input Account fees</from><to>stage fees account with transaction</to><enabled>Y</enabled> </hop>
+  <hop> <from>Center type</from><to>Database lookup</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database lookup</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
   </order>
   <step>
-    <name>Input Account fees</name>
+    <name>Center type</name>
     <type>TableInput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -141,7 +140,7 @@
            <schema_name/>
            </partitioning>
     <connection>SourceDB</connection>
-    <sql>&#xd;&#xa;SELECT&#xd;&#xa; cr.CUSTOMER_ID AS client_id,&#xd;&#xa; af.ACCOUNT_FEE_ID As fee_account_id,&#xd;&#xa; af.FEE_AMNT AS amount,&#xd;&#xa; if&#x28;af.FEE_STATUS is null,2,af.FEE_STATUS&#x29; AS is_active,&#xd;&#xa; af.FEE_ID As charge_id,&#xd;&#xa; ftd.FEE_AMOUNT AS amount_paid_derived,&#xd;&#xa; af.FEE_AMNT-ftd.FEE_AMOUNT AS amount_outstanding_derived,&#xd;&#xa; IF&#x28;af.FEE_AMNT-ftd.FEE_AMOUNT&#x3d;0,1,0&#x29; AS is_paid_derived,&#xd;&#xa; curdate&#x28;&#x29; AS charge_due_date, -- not used, instead derived in next step&#xd;&#xa; atx.ACTION_DATE As transaction_date,&#xd;&#xa; cr.BRANCH_ID As office_id&#xd;&#xa;FROM account_fees af&#xd;&#xa;INNER JOIN fees f ON af.FEE_ID&#x3d;f.FEE_ID AND f.CATEGORY_ID &#x3d; 2 -- 2 &#x3d;&#x3e; Client fees &#xd;&#xa;INNER JOIN account ac ON ac.ACCOUNT_ID&#x3d;af.ACCOUNT_ID &#xd;&#xa;INNER JOIN customer cr ON ac.CUSTOMER_ID &#x3d; cr.CUSTOMER_ID AND ac.ACCOUNT_TYPE_ID &#x3d; 3 AND cr.DISCRIMINATOR &#x3d; &#x27;CLIENT&#x27;  &#xd;&#xa;INNER JOIN fee_trxn_detail ftd ON af.ACCOUNT_FEE_ID&#x3d;ftd.ACCOUNT_FEE_ID&#xd;&#xa;INNER JOIN account_trxn atx ON ftd.ACCOUNT_TRXN_ID&#x3d;atx.ACCOUNT_TRXN_ID</sql>
+    <sql>SELECT&#xd;&#xa;	cr.CUSTOMER_ID As ceterId,&#xd;&#xa;	cr.GLOBAL_CUST_NUM,&#xd;&#xa;	qgi.entity_id As entityId, &#xd;&#xa;	q.QUESTION_ID,&#xd;&#xa;	q.ANSWER_TYPE,&#xd;&#xa;	q.question_text,&#xd;&#xa;	qgr.response As response ,&#xd;&#xa;	qgr.question_group_instance_id As instanceId ,&#xd;&#xa;	qgr.sections_questions_id As section_question_id,&#xd;&#xa;	qgi.question_group_id&#xd;&#xa;FROM &#xd;&#xa;question_group_instance qgi &#xd;&#xa;JOIN question_group qg ON qg.id &#x3d; qgi.question_group_id AND qgi.question_group_id &#x3d; 7&#xd;&#xa;JOIN question_group_response qgr ON qgr.question_group_instance_id &#x3d; qgi.id&#xd;&#xa;JOIN sections_questions sq  ON sq.id &#x3d; qgr.sections_questions_id&#xd;&#xa;JOIN questions q ON q.QUESTION_ID &#x3d; sq.question_id&#xd;&#xa;JOIN customer cr ON cr.CUSTOMER_ID &#x3d; qgi.entity_id&#xd;&#xa;ORDER BY instanceId</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -149,15 +148,15 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>281</xloc>
-      <yloc>218</yloc>
+      <xloc>262</xloc>
+      <yloc>132</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>stage fees account with transaction</name>
-    <type>TableOutput</type>
+    <name>Database lookup</name>
+    <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -167,72 +166,74 @@
            <schema_name/>
            </partitioning>
     <connection>DestinationDB</connection>
-    <schema/>
-    <table>stage1_client_fees_account</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>client_id</column_name>
-          <stream_name>client_id</stream_name>
-        </field>
-        <field>
-          <column_name>amount</column_name>
-          <stream_name>amount</stream_name>
-        </field>
-        <field>
-          <column_name>is_active</column_name>
-          <stream_name>is_active</stream_name>
-        </field>
-        <field>
-          <column_name>charge_id</column_name>
-          <stream_name>charge_id</stream_name>
-        </field>
-        <field>
-          <column_name>amount_paid_derived</column_name>
-          <stream_name>amount_paid_derived</stream_name>
-        </field>
-        <field>
-          <column_name>amount_outstanding_derived</column_name>
-          <stream_name>amount_outstanding_derived</stream_name>
-        </field>
-        <field>
-          <column_name>is_paid_derived</column_name>
-          <stream_name>is_paid_derived</stream_name>
-        </field>
-        <field>
-          <column_name>charge_due_date</column_name>
-          <stream_name>charge_due_date</stream_name>
-        </field>
-        <field>
-          <column_name>transaction_date</column_name>
-          <stream_name>transaction_date</stream_name>
-        </field>
-        <field>
-          <column_name>office_id</column_name>
-          <stream_name>office_id</stream_name>
-        </field>
-        <field>
-          <column_name>fee_account_id</column_name>
-          <stream_name>fee_account_id</stream_name>
-        </field>
-    </fields>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>m_code_value</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>Y</eat_row_on_failure>
+      <key>
+        <name>response</name>
+        <field>code_value</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id</name>
+        <rename>code_value_id</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>579</xloc>
-      <yloc>218</yloc>
+      <xloc>406</xloc>
+      <yloc>131</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>DestinationDB</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>additional data</table>
+      <key>
+        <name>entityId</name>
+        <field>center_id</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>Center Type_cd_Centre Type</name>
+        <rename>code_value_id</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>center_id</name>
+        <rename>ceterId</rename>
+        <update>N</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>542</xloc>
+      <yloc>131</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

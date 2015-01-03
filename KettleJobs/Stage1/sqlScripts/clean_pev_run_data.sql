@@ -1,7 +1,4 @@
 SET foreign_key_checks = 0;
-TRUNCATE relatives;
-TRUNCATE address;
-TRUNCATE `customer details`;
 TRUNCATE m_appuser_role;
 TRUNCATE  m_role;
 TRUNCATE m_appuser;
@@ -41,23 +38,25 @@ TRUNCATE `m_deposit_product_interest_rate_chart`;
 TRUNCATE `m_interest_rate_chart`;
 TRUNCATE `m_deposit_product_interest_rate_chart`;
 TRUNCATE `m_mandatory_savings_schedule`;
-TRUNCATE `m_savings_account_interest_rate_slab`;
-TRUNCATE `m_savings_account_interest_rate_chart`;
 TRUNCATE `m_savings_account_transaction`;
 TRUNCATE `stage1_client_fees_account`;
 TRUNCATE `m_savings_account`;
 TRUNCATE `m_savings_account_charge`;
 TRUNCATE `m_savings_account_charge_paid_by`;
-TRUNCATE `m_savings_account_interest_rate_chart;
-TRUNCATE `m_savings_account_interest_rate_slab`;
 TRUNCATE `m_savings_account_transaction`;
 TRUNCATE `m_savings_product_charge`;
 TRUNCATE `m_deposit_account_term_and_preclosure`;
-TRUNCATE `m_savings_account_interest_rate_chart`;
 TRUNCATE `m_savings_account_interest_rate_slab`;
-ALTER TABLE `acc_gl_account`
-	ALTER `name` DROP DEFAULT;
-ALTER TABLE `acc_gl_account`
-	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL AFTER `id`;
+TRUNCATE `m_savings_account_interest_rate_chart`;
+ALTER TABLE `acc_gl_account` ALTER `name` DROP DEFAULT;
+ALTER TABLE `acc_gl_account` CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL AFTER `id`;
+
+TRUNCATE `additional data`;
+TRUNCATE `address`;
+TRUNCATE `center address`;
+TRUNCATE `family information`;
+TRUNCATE `insurance nominee details`;
+TRUNCATE `noc details`;
+TRUNCATE `personal information`;
 
 SET foreign_key_checks = 1;

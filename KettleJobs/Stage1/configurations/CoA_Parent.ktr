@@ -347,7 +347,7 @@
       <table>acc_gl_account</table>
       <orderby/>
       <fail_on_multiple>Y</fail_on_multiple>
-      <eat_row_on_failure>Y</eat_row_on_failure>
+      <eat_row_on_failure>N</eat_row_on_failure>
       <key>
         <name>ParentAccountCode</name>
         <field>gl_code</field>

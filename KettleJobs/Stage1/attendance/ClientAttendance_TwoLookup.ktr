@@ -367,7 +367,7 @@
            <schema_name/>
            </partitioning>
     <connection>SourceDB</connection>
-    <sql>SELECT&#xd;&#xa;	ca.id AS s_attendance_id,&#xd;&#xa;	ca.meeting_date AS s_meeting_date,&#xd;&#xa;	ca.customer_id AS s_customer_id,&#xd;&#xa;	ca.attendance AS s_attendance_code,&#xd;&#xa;	cent.customer_id AS s_center_id&#xd;&#xa;FROM&#xd;&#xa;	customer_attendance ca&#xd;&#xa;	LEFT JOIN customer c&#xd;&#xa;		ON ca.customer_id &#x3d; c.customer_id AND&#xd;&#xa;		c.discriminator &#x3d; &#x27;CLIENT&#x27;&#xd;&#xa;	LEFT JOIN customer grp&#xd;&#xa;		ON c.parent_customer_id &#x3d; grp.customer_id AND&#xd;&#xa;		grp.discriminator &#x3d; &#x27;GROUP&#x27;&#xd;&#xa;	LEFT JOIN customer cent&#xd;&#xa;		ON grp.parent_customer_id &#x3d; cent.customer_id AND&#xd;&#xa;		cent.discriminator &#x3d; &#x27;CENTER&#x27;&#xd;&#xa;		&#x23;where cent.BRANCH_ID in &#x28;8,2&#x29;&#xd;&#xa;Order by 3</sql>
+    <sql>SELECT&#xd;&#xa;	ca.id AS s_attendance_id,&#xd;&#xa;	ca.meeting_date AS s_meeting_date,&#xd;&#xa;	ca.customer_id AS s_customer_id,&#xd;&#xa;	ca.attendance AS s_attendance_code,&#xd;&#xa;	cent.customer_id AS s_center_id&#xd;&#xa;FROM&#xd;&#xa;	customer_attendance ca&#xd;&#xa;	LEFT JOIN customer c&#xd;&#xa;		ON ca.customer_id &#x3d; c.customer_id AND&#xd;&#xa;		c.discriminator &#x3d; &#x27;CLIENT&#x27;&#xd;&#xa;	LEFT JOIN customer grp&#xd;&#xa;		ON c.parent_customer_id &#x3d; grp.customer_id AND&#xd;&#xa;		grp.discriminator &#x3d; &#x27;GROUP&#x27;&#xd;&#xa;	LEFT JOIN customer cent&#xd;&#xa;		ON grp.parent_customer_id &#x3d; cent.customer_id AND&#xd;&#xa;		cent.discriminator &#x3d; &#x27;CENTER&#x27;&#xd;&#xa;Order by 3</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>

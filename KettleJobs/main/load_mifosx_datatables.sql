@@ -1,81 +1,96 @@
-DROP TABLE IF EXISTS `customer details`;
-CREATE TABLE `customer details` (
-  `client_id` bigint(20) NOT NULL,
-  `Date Of Birth` date DEFAULT NULL,
-  `Gender_cd_Gender` int(11) DEFAULT NULL,
-  `Barangay_cd_Barangay` int(11) DEFAULT NULL,
-  `Religion_cd_Religion` int(11) DEFAULT NULL,
-  `BusinessActivities_cd_BusinessActivities` int(11) DEFAULT NULL,
-  `MaritalStatus_cd_MaritalStatus` int(11) DEFAULT NULL,
-  `EducationLevel_cd_EducationLevel` int(11) DEFAULT NULL,
-  `Municipality_cd_Municipality` int(11) DEFAULT NULL,
-  `Number Of Children` int(11) DEFAULT NULL,
-  `Government Id` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`client_id`),
-  CONSTRAINT `fk_customer_details_client_id` FOREIGN KEY (`client_id`) REFERENCES `m_client` (`id`)
+DROP TABLE IF EXISTS `additional data`;
+CREATE TABLE IF NOT EXISTS `additional data` (
+  `center_id` bigint(20) NOT NULL,
+  `Meeting Start time` VARCHAR(50) NULL DEFAULT NULL,
+  `Center Type_cd_Centre Type` int(11) DEFAULT NULL,
+  PRIMARY KEY (`center_id`),
+  CONSTRAINT `fk_additional_data_center_id` FOREIGN KEY (`center_id`) REFERENCES `m_group` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table lightmifosx.address
 DROP TABLE IF EXISTS `address`;
-CREATE TABLE `address` (
+CREATE TABLE IF NOT EXISTS `address` (
   `client_id` bigint(20) NOT NULL,
-  `Physical Home Address` varchar(200) DEFAULT NULL,
-  `Work Place Address` varchar(200) DEFAULT NULL,
-  `PO BOX` varchar(200) DEFAULT NULL,
-  `City District` varchar(200) DEFAULT NULL,
-  `State` varchar(200) DEFAULT NULL,
-  `Country` varchar(200) DEFAULT NULL,
-  `Other_Phone` varchar(200) DEFAULT NULL,
-  `Main_Telephone` varchar(200) DEFAULT NULL,
+  `Address line` varchar(200) DEFAULT NULL,
+  `Village` varchar(200) DEFAULT NULL,
+  `State_cd_State` int(11) DEFAULT NULL,
+  `Postal Code` int(11) DEFAULT NULL,
   PRIMARY KEY (`client_id`),
   CONSTRAINT `fk_address_client_id` FOREIGN KEY (`client_id`) REFERENCES `m_client` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* In MIfos if multiple family members inforamtion is cature 
-   then commment below block and un-comment commented block
-   
-   i.e., If AreFamilyDetailsRequired=true
-   
-*/
+-- Data exporting was unselected.
 
-DROP TABLE IF EXISTS `relatives`;
-CREATE TABLE `relatives` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `client_id` bigint(20) NOT NULL,
-  `Relationship_cd_Relationship` int(11) DEFAULT NULL,
-  `First Name` varchar(2000) DEFAULT NULL,
-  `Last Name` varchar(2000) DEFAULT NULL,
-  `Date Of Birth` DATE NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_client_id` (`client_id`),
-  CONSTRAINT `fk_relatives_client_id` FOREIGN KEY (`client_id`) REFERENCES `m_client` (`id`)
+
+-- Dumping structure for table lightmifosx.center address
+DROP TABLE IF EXISTS `center address`;
+CREATE TABLE IF NOT EXISTS `center address` (
+  `center_id` bigint(20) NOT NULL,
+  `Village` varchar(200) DEFAULT NULL,
+  `Postal Code` int(11) DEFAULT NULL,
+  PRIMARY KEY (`center_id`),
+  CONSTRAINT `fk_center_address_center_id` FOREIGN KEY (`center_id`) REFERENCES `m_group` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*
-DROP TABLE IF EXISTS `relatives`;
-CREATE TABLE `relatives` (
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table lightmifosx.family information
+DROP TABLE IF EXISTS `family information`;
+CREATE TABLE IF NOT EXISTS `family information` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `client_id` bigint(20) NOT NULL,
   `Relationship_cd_Relationship` int(11) DEFAULT NULL,
-  `First Name` varchar(2000) DEFAULT NULL,
-  `Last Name` varchar(2000) DEFAULT NULL,
+  `Name` varchar(200) DEFAULT NULL,
+  `Date of Birth` date DEFAULT NULL,
   `Gender_cd_Gender` int(11) DEFAULT NULL,
-  `Date Of Birth` date DEFAULT NULL,
-  `LivingStatus_cd_Living Status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_client_id` (`client_id`),
-  CONSTRAINT `fk_relatives_client_id` FOREIGN KEY (`client_id`) REFERENCES `m_client` (`id`)
+  CONSTRAINT `fk_family_information_client_id` FOREIGN KEY (`client_id`) REFERENCES `m_client` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-*/
+
+-- Data exporting was unselected.
 
 
-DROP TABLE IF EXISTS `luc`;
-CREATE TABLE `luc` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+-- Dumping structure for table lightmifosx.insurance nominee details
+DROP TABLE IF EXISTS `insurance nominee details`;
+CREATE TABLE IF NOT EXISTS `insurance nominee details` (
   `loan_id` bigint(20) NOT NULL,
-  `Conducted_Date` date DEFAULT NULL,
-  `Loan_Utilization_Status` varchar(500) NOT NULL,
-  `LUC_Comments` varchar(500) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_loan_id` (`loan_id`),
-  CONSTRAINT `fk_luc_loan_id` FOREIGN KEY (`loan_id`) REFERENCES `m_loan` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39791 DEFAULT CHARSET=utf8;
+  `Nominee Name` varchar(200) DEFAULT NULL,
+  `Nominee Age` int(11) DEFAULT NULL,
+  `Relationship_cd_Nominee Relationship` int(11) DEFAULT NULL,
+  `Appointee Name` varchar(200) DEFAULT NULL,
+  `Appointee Age` int(11) DEFAULT NULL,
+  PRIMARY KEY (`loan_id`),
+  CONSTRAINT `fk_insurance_nominee_details_loan_id` FOREIGN KEY (`loan_id`) REFERENCES `m_loan` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table lightmifosx.noc details
+DROP TABLE IF EXISTS `noc details`;
+CREATE TABLE `noc details` (
+  `loan_id` BIGINT(20) NOT NULL,
+  `MFIs_cd_NOC Provided By` INT(11) NULL DEFAULT NULL,
+  `NOC Date` DATE NULL DEFAULT NULL,
+  PRIMARY KEY (`loan_id`),
+  CONSTRAINT `fk_noc_details_loan_id` FOREIGN KEY (`loan_id`) REFERENCES `m_loan` (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table lightmifosx.personal information
+DROP TABLE IF EXISTS `personal information`;
+CREATE TABLE IF NOT EXISTS `personal information` (
+  `client_id` bigint(20) NOT NULL,
+  `MaritalStatus_cd_Marital Status` int(11) DEFAULT NULL,
+  `BusinessActivities_cd_Activities` int(11) DEFAULT NULL,
+  PRIMARY KEY (`client_id`),
+  CONSTRAINT `fk_personal_information_client_id` FOREIGN KEY (`client_id`) REFERENCES `m_client` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

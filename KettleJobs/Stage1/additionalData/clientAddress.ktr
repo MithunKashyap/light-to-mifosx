@@ -135,9 +135,11 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
       <attribute><code>PORT_NUMBER</code><attribute>3306</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>N</attribute></attribute>
       <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
     </attributes>
   </connection>
@@ -306,7 +308,7 @@
            <schema_name/>
            </partitioning>
     <connection>SourceDB</connection>
-    <sql>SELECT&#xa;  customer_address_id&#xa;, cr.customer_id&#xa;, locale_id&#xa;, address_name&#xa;, line_1&#xa;, line_2&#xa;, line_3&#xa;, city&#xa;, state&#xa;, country&#xa;, zip&#xa;, address_status&#xa;, phone_number&#xa;, phone_number_stripped&#xa;FROM customer_address_detail cad&#xa;JOIN customer cr ON cr.customer_id &#x3d; cad.customer_id and cr.discriminator &#x3d; &#x22;CLIENT&#x22;&#xd;&#xa;and cr.branch_id in &#x28;8,2&#x29;</sql>
+    <sql>SELECT&#xa;  customer_address_id&#xa;, cr.customer_id&#xa;, CONCAT&#x28;line_1,line_2,line_3&#x29; As addressLine&#xa;, city&#xa;, state&#xa;, country&#xa;, zip&#xa;, address_status&#xa;, phone_number&#xa;, phone_number_stripped&#xa;FROM customer_address_detail cad&#xa;JOIN customer cr ON cr.customer_id &#x3d; cad.customer_id and cr.discriminator &#x3d; &#x22;CLIENT&#x22;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -354,36 +356,16 @@
           <stream_name>customer_id</stream_name>
         </field>
         <field>
-          <column_name>State</column_name>
-          <stream_name>state</stream_name>
-        </field>
-        <field>
-          <column_name>Country</column_name>
-          <stream_name>country</stream_name>
-        </field>
-        <field>
-          <column_name>Physical Home Address</column_name>
-          <stream_name>line_1</stream_name>
-        </field>
-        <field>
-          <column_name>Work Place Address</column_name>
-          <stream_name>line_2</stream_name>
-        </field>
-        <field>
-          <column_name>City District</column_name>
+          <column_name>Village</column_name>
           <stream_name>city</stream_name>
         </field>
         <field>
-          <column_name>Main_Telephone</column_name>
-          <stream_name>phone_number</stream_name>
+          <column_name>Postal Code</column_name>
+          <stream_name>address_status</stream_name>
         </field>
         <field>
-          <column_name>Other_Phone</column_name>
-          <stream_name>zip</stream_name>
-        </field>
-        <field>
-          <column_name>PO BOX</column_name>
-          <stream_name>line_3</stream_name>
+          <column_name>Address line</column_name>
+          <stream_name>addressLine</stream_name>
         </field>
     </fields>
      <cluster_schema/>

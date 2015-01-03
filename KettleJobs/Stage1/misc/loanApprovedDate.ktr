@@ -137,7 +137,7 @@
            <schema_name/>
            </partitioning>
     <connection>SourceDB</connection>
-    <sql>SELECT&#xa;asch.ACCOUNT_ID&#xa;, asch.CHANGED_BY&#xa;, asch.CHANGED_DATE&#xa;FROM loan_account la&#xa;LEFT JOIN account ac ON ac.account_id &#x3d;  la.account_id&#xa;LEFT JOIN account_status_change_history asch ON la.account_id &#x3d; asch.ACCOUNT_ID&#xd;&#xa;&#xa;WHERE asch.NEW_STATUS &#x3d;  3 AND asch.OLD_STATUS &#x3d;  2&#xd;&#xa;&#x23;and ac.office_id in &#x28;8,2&#x29;&#xa;</sql>
+    <sql>SELECT&#xa;asch.ACCOUNT_ID&#xa;, asch.CHANGED_BY&#xa;, asch.CHANGED_DATE&#xa;FROM loan_account la&#xa;LEFT JOIN account ac ON ac.account_id &#x3d;  la.account_id&#xa;LEFT JOIN account_status_change_history asch ON la.account_id &#x3d; asch.ACCOUNT_ID&#xd;&#xa;&#xa;WHERE asch.NEW_STATUS &#x3d;  3 AND asch.OLD_STATUS &#x3d;  2</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -170,7 +170,7 @@
       <table>m_loan</table>
       <key>
         <name>ACCOUNT_ID</name>
-        <field>account_no</field>
+        <field>id</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
