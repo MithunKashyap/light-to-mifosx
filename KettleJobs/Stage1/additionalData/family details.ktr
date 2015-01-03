@@ -135,9 +135,11 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
       <attribute><code>PORT_NUMBER</code><attribute>3306</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>N</attribute></attribute>
       <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
     </attributes>
   </connection>
@@ -306,7 +308,7 @@
            <schema_name/>
            </partitioning>
     <connection>SourceDB</connection>
-    <sql>SELECT &#xd;&#xa;cr.CUSTOMER_ID As client_id,&#xd;&#xa;cnd.FIRST_NAME As FirstName,&#xd;&#xa;cnd.LAST_NAME As LastName,&#xd;&#xa;sfl.LOOKUP_ID As Relationship_cd_Relationship,&#xd;&#xa;cfd.DATE_OF_BIRTH&#xd;&#xa;FROM customer_name_detail cnd&#xd;&#xa;JOIN customer cr ON cr.CUSTOMER_ID &#x3d; cnd.CUSTOMER_ID AND cr.DISCRIMINATOR &#x3d; &#x27;CLIENT&#x27; AND cnd.NAME_TYPE &#x3c;&#x3e; 3&#xd;&#xa;INNER JOIN spouse_father_lookup sfl ON  sfl.SPOUSE_FATHER_ID &#x3d; cnd.NAME_TYPE&#xd;&#xa;LEFT JOIN customer_family_detail cfd on cfd.CUSTOMER_NAME_ID&#x3d;cnd.CUSTOMER_NAME_ID&#xd;&#xa;where cr.branch_id in &#x28;8,2&#x29;</sql>
+    <sql>SELECT &#xd;&#xa;	cr.CUSTOMER_ID As client_id,&#xd;&#xa;	CONCAT&#x28; cnd.FIRST_NAME, &#x22; &#x22;, cnd.LAST_NAME&#x29; As FullName,&#xd;&#xa;	sfl.LOOKUP_ID As Relationship_cd_Relationship,&#xd;&#xa;	cfd.DATE_OF_BIRTH,&#xd;&#xa;	cfd.GENDER As Gender&#xd;&#xa;FROM customer_name_detail cnd&#xd;&#xa;JOIN customer cr ON cr.CUSTOMER_ID &#x3d; cnd.CUSTOMER_ID AND cr.DISCRIMINATOR &#x3d; &#x27;CLIENT&#x27; AND cnd.NAME_TYPE &#x3c;&#x3e; 3&#xd;&#xa;INNER JOIN spouse_father_lookup sfl ON  sfl.SPOUSE_FATHER_ID &#x3d; cnd.NAME_TYPE&#xd;&#xa;LEFT JOIN customer_family_detail cfd on cfd.CUSTOMER_NAME_ID&#x3d;cnd.CUSTOMER_NAME_ID</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -333,7 +335,7 @@
            </partitioning>
     <connection>DestinationDB</connection>
     <schema/>
-    <table>relatives</table>
+    <table>family information</table>
     <commit>1000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
@@ -354,20 +356,20 @@
           <stream_name>client_id</stream_name>
         </field>
         <field>
-          <column_name>First Name</column_name>
-          <stream_name>FirstName</stream_name>
-        </field>
-        <field>
-          <column_name>Last Name</column_name>
-          <stream_name>LastName</stream_name>
-        </field>
-        <field>
           <column_name>Relationship_cd_Relationship</column_name>
           <stream_name>Relationship_cd_Relationship</stream_name>
         </field>
         <field>
-          <column_name>Date Of Birth</column_name>
+          <column_name>Date of Birth</column_name>
           <stream_name>DATE_OF_BIRTH</stream_name>
+        </field>
+        <field>
+          <column_name>Name</column_name>
+          <stream_name>FullName</stream_name>
+        </field>
+        <field>
+          <column_name>Gender_cd_Gender</column_name>
+          <stream_name>Gender</stream_name>
         </field>
     </fields>
      <cluster_schema/>

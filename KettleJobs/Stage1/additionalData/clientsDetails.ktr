@@ -135,9 +135,11 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
       <attribute><code>PORT_NUMBER</code><attribute>3306</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>N</attribute></attribute>
       <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
     </attributes>
   </connection>
@@ -306,7 +308,7 @@
            <schema_name/>
            </partitioning>
     <connection>SourceDB</connection>
-    <sql>SELECT&#xa;  cr.CUSTOMER_ID&#xa;, cr.DATE_OF_BIRTH&#xa;, cr.GOVERNMENT_ID&#xa;&#x23;, NULL As ETHINICITY&#xa;, CITIZENSHIP&#xa;, HANDICAPPED&#xa;, BUSINESS_ACTIVITIES&#xa;, MARITAL_STATUS&#xa;, EDUCATION_LEVEL&#xa;, NUM_CHILDREN&#xa;, GENDER&#xa;, DATE_STARTED&#xa;, HANDICAPPED_DETAILS&#xa;, POVERTY_STATUS&#xa;, POVERTY_LHOOD_PCT&#xa;FROM customer_detail cd&#xa;JOIN customer cr ON cr.CUSTOMER_ID &#x3d; cd.CUSTOMER_ID&#xa;WHERE cr.DISCRIMINATOR &#x3d; &#x27;CLIENT&#x27;&#xd;&#xa;and cr.branch_id in &#x28;8,2&#x29;</sql>
+    <sql>SELECT&#xa;  cr.CUSTOMER_ID&#xa;, cr.DATE_OF_BIRTH&#xa;, cr.GOVERNMENT_ID&#xa;&#x23;, NULL As ETHINICITY&#xa;, CITIZENSHIP&#xa;, HANDICAPPED&#xa;, BUSINESS_ACTIVITIES&#xa;, MARITAL_STATUS&#xa;, EDUCATION_LEVEL&#xa;, NUM_CHILDREN&#xa;, GENDER&#xa;, DATE_STARTED&#xa;, HANDICAPPED_DETAILS&#xa;, POVERTY_STATUS&#xa;, POVERTY_LHOOD_PCT&#xa;FROM customer_detail cd&#xa;JOIN customer cr ON cr.CUSTOMER_ID &#x3d; cd.CUSTOMER_ID&#xa;WHERE cr.DISCRIMINATOR &#x3d; &#x27;CLIENT&#x27;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -333,7 +335,7 @@
            </partitioning>
     <connection>DestinationDB</connection>
     <schema/>
-    <table>customer details</table>
+    <table>personal information</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -354,32 +356,12 @@
           <stream_name>CUSTOMER_ID</stream_name>
         </field>
         <field>
-          <column_name>Religion_cd_Religion</column_name>
-          <stream_name>CITIZENSHIP</stream_name>
-        </field>
-        <field>
-          <column_name>BusinessActivities_cd_BusinessActivities</column_name>
-          <stream_name>BUSINESS_ACTIVITIES</stream_name>
-        </field>
-        <field>
-          <column_name>MaritalStatus_cd_MaritalStatus</column_name>
+          <column_name>MaritalStatus_cd_Marital Status</column_name>
           <stream_name>MARITAL_STATUS</stream_name>
         </field>
         <field>
-          <column_name>EducationLevel_cd_EducationLevel</column_name>
-          <stream_name>EDUCATION_LEVEL</stream_name>
-        </field>
-        <field>
-          <column_name>Number Of Children</column_name>
-          <stream_name>NUM_CHILDREN</stream_name>
-        </field>
-        <field>
-          <column_name>Gender_cd_Gender</column_name>
-          <stream_name>GENDER</stream_name>
-        </field>
-        <field>
-          <column_name>Date Of Birth</column_name>
-          <stream_name>DATE_OF_BIRTH</stream_name>
+          <column_name>BusinessActivities_cd_Activities</column_name>
+          <stream_name>BUSINESS_ACTIVITIES</stream_name>
         </field>
     </fields>
      <cluster_schema/>

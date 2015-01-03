@@ -135,9 +135,11 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
       <attribute><code>PORT_NUMBER</code><attribute>3306</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>N</attribute></attribute>
       <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
     </attributes>
   </connection>
@@ -405,7 +407,7 @@
            <schema_name/>
            </partitioning>
     <connection>SourceDB</connection>
-    <sql>SELECT&#xa;  cr.CUSTOMER_ID As id&#xa;, cr.GLOBAL_CUST_NUM As account_no&#xa;, cr.loan_officer_id As staff_id&#xa;, cr.GLOBAL_CUST_NUM As external_id&#xa;, cr.STATUS_ID	 As	status_enum&#xa;, cr.CUSTOMER_ACTIVATION_DATE	 As	activation_date&#xa;, cr.BRANCH_ID	 As	office_id&#xa;, cnd.FIRST_NAME As firstname&#xa;, cnd.MIDDLE_NAME As middlename&#xa;, cnd.LAST_NAME As lastname&#xa;, NULL As fullname&#xa;, cnd.DISPLAY_NAME As display_name&#xa;, NULL	 As	image_id&#xa;, cr.CREATED_DATE As submitedDate&#xa;, cr.CREATED_BY As submittedBy&#xa;FROM customer cr&#xa;LEFT JOIN account ac ON ac.CUSTOMER_ID &#x3d; cr.CUSTOMER_ID AND ac.ACCOUNT_TYPE_ID &#x3d; 3 &#xa;LEFT JOIN customer_name_detail cnd ON cnd.CUSTOMER_ID &#x3d; cr.CUSTOMER_ID AND cnd.NAME_TYPE &#x3d; 3&#xa;WHERE DISCRIMINATOR &#x3d; &#x27;CLIENT&#x27;&#xd;&#xa;&#x23;and cr.branch_id in &#x28;8,2&#x29;</sql>
+    <sql>SELECT&#xd;&#xa;  cr.CUSTOMER_ID As id&#xd;&#xa;, cr.GLOBAL_CUST_NUM As account_no&#xd;&#xa;, cr.loan_officer_id As staff_id&#xd;&#xa;, cr.GLOBAL_CUST_NUM As external_id&#xd;&#xa;, cr.STATUS_ID	 As	status_enum&#xd;&#xa;, cr.CUSTOMER_ACTIVATION_DATE	 As	activation_date&#xd;&#xa;, cr.BRANCH_ID	 As	office_id&#xd;&#xa;, cnd.FIRST_NAME As firstname&#xd;&#xa;, cnd.MIDDLE_NAME As middlename&#xd;&#xa;, cnd.LAST_NAME As lastname&#xd;&#xa;, NULL As fullname&#xd;&#xa;, cnd.DISPLAY_NAME As display_name&#xd;&#xa;, NULL	 As	image_id&#xd;&#xa;, cd.GENDER As Gender_Id&#xd;&#xa;, cd.ETHINICITY As ClientType_cv_Id&#xd;&#xa;, cd.CITIZENSHIP As ClientClassification_cv_id&#xd;&#xa;, cr.DATE_OF_BIRTH As date_of_birth&#xd;&#xa;, cad.PHONE_NUMBER As mobile_number&#xd;&#xa;, cr.CREATED_DATE As submitedDate&#xd;&#xa;, cr.CREATED_BY As submittedBy&#xd;&#xa;FROM customer cr&#xd;&#xa;LEFT JOIN account ac ON ac.CUSTOMER_ID &#x3d; cr.CUSTOMER_ID AND ac.ACCOUNT_TYPE_ID &#x3d; 3 &#xd;&#xa;LEFT JOIN customer_name_detail cnd ON cnd.CUSTOMER_ID &#x3d; cr.CUSTOMER_ID AND cnd.NAME_TYPE &#x3d; 3&#xd;&#xa;LEFT JOIN customer_detail cd ON cd.CUSTOMER_ID &#x3d; cr.CUSTOMER_ID&#xd;&#xa;LEFT JOIN customer_address_detail cad ON cad.CUSTOMER_ID &#x3d; cr.CUSTOMER_ID&#xd;&#xa;WHERE DISCRIMINATOR &#x3d; &#x27;CLIENT&#x27;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -507,6 +509,26 @@
         <field>
           <column_name>submittedon_userid</column_name>
           <stream_name>submittedBy</stream_name>
+        </field>
+        <field>
+          <column_name>gender_cv_id</column_name>
+          <stream_name>Gender_Id</stream_name>
+        </field>
+        <field>
+          <column_name>client_type_cv_id</column_name>
+          <stream_name>ClientType_cv_Id</stream_name>
+        </field>
+        <field>
+          <column_name>client_classification_cv_id</column_name>
+          <stream_name>ClientClassification_cv_id</stream_name>
+        </field>
+        <field>
+          <column_name>date_of_birth</column_name>
+          <stream_name>date_of_birth</stream_name>
+        </field>
+        <field>
+          <column_name>office_joining_date</column_name>
+          <stream_name>activation_date</stream_name>
         </field>
     </fields>
      <cluster_schema/>
