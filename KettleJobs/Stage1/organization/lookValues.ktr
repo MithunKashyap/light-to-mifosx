@@ -414,7 +414,7 @@
     <non_match_default/>
     <fields>
       <field>
-        <source_value>Ethinicity</source_value>
+        <source_value>Ethnicity</source_value>
         <target_value>ClientType</target_value>
       </field>
       <field>
