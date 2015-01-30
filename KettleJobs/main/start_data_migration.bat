@@ -1,10 +1,10 @@
-SET PDIPATH=F:\utilities\data-integration\
-SET KETTLEPATH=F:\clients\light\light-to-mifosx\KettleJobs\
+SET PDIPATH=C:\Users\CON-LP-19\Desktop\Clients\data-integration\
+SET KETTLEPATH=C:\light-to-mifosx\KettleJobs\
 
 :: location where source database dump is located, comment below line if source DB is already restored
 :: SET SOURCEDUMP=E:\Projects\Clients\secdep\secdepx\move-to-mifosx\source_db_dump\source.sql
-SET DESTDB=lightmifosx
-SET SOURCEDB=lightmifos
+SET DESTDB=lightx
+SET SOURCEDB=light
 
 
 ::  comment below two lines if source DB is already restored
