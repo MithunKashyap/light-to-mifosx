@@ -2,15 +2,15 @@ SET PDIPATH=C:\Users\CON-LP-19\Desktop\Clients\data-integration\
 SET KETTLEPATH=C:\light-to-mifosx\KettleJobs\
 
 :: location where source database dump is located, comment below line if source DB is already restored
-:: SET SOURCEDUMP=E:\Projects\Clients\secdep\secdepx\move-to-mifosx\source_db_dump\source.sql
+SET SOURCEDUMP=E:\Projects\Clients\secdep\secdepx\move-to-mifosx\source_db_dump\source.sql
 SET DESTDB=lightx
 SET SOURCEDB=light
 
 
 ::  comment below two lines if source DB is already restored
-::	mysql -uroot -pmysql USE %SOURCEDB%;
-::	mysql -uroot -pmysql %SOURCEDB% < %SOURCEDUMP%
-::	echo Dump is restored.
+mysql -uroot -pmysql USE %SOURCEDB%;
+mysql -uroot -pmysql %SOURCEDB% < %SOURCEDUMP%
+echo Dump is restored.
 
 mysql -uroot -pmysql %DESTDB% < %KETTLEPATH%main\load_mifosx_ddl.sql
 mysql -uroot -pmysql %DESTDB% < %KETTLEPATH%main\load_mifosx_datatables.sql
