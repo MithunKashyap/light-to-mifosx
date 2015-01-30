@@ -2,16 +2,20 @@ SET PDIPATH=C:\Users\CON-LP-19\Desktop\Clients\data-integration\
 SET KETTLEPATH=C:\light-to-mifosx\KettleJobs\
 
 :: location where source database dump is located, comment below line if source DB is already restored
-SET SOURCEDUMP=E:\Projects\Clients\secdep\secdepx\move-to-mifosx\source_db_dump\source.sql
-SET DESTDB=lightx
-SET SOURCEDB=light
+rem SET SOURCEDUMP=E:\Projects\Clients\secdep\secdepx\move-to-mifosx\source_db_dump\source.sql
+SET DESTDB=migrationX
+SET SOURCEDB=migration
 
+:: comment below two lines if source DB is already restored
+:: mysql -uroot -pmysql USE %SOURCEDB%;
+rem mysql -uroot -pmysql %SOURCEDB% < %SOURCEDUMP%
+rem echo Dump is restored.
 
-::  comment below two lines if source DB is already restored
-mysql -uroot -pmysql USE %SOURCEDB%;
-mysql -uroot -pmysql %SOURCEDB% < %SOURCEDUMP%
-echo Dump is restored.
+echo DROP DATABASE IF EXISTS %DESTDB%; > dropdb.sql
+echo CREATE DATABASE %DESTDB%;  > createdb.sql
 
+mysql -uroot -pmysql < dropdb.sql
+mysql -uroot -pmysql < createdb.sql
 mysql -uroot -pmysql %DESTDB% < %KETTLEPATH%main\load_mifosx_ddl.sql
 mysql -uroot -pmysql %DESTDB% < %KETTLEPATH%main\load_mifosx_datatables.sql
 mysql -uroot -pmysql %DESTDB% < %KETTLEPATH%main\data_table_registered.sql
